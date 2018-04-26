@@ -7,6 +7,7 @@ Prof. Neylson
 """
 
 import pandas as pd
+import numpy as np
 
 pnad = pd.read_csv('https://github.com/neylsoncrepalde/introducao_ao_python/blob/master/pes_2012.csv?raw=true')
 pnad.head()
@@ -24,3 +25,8 @@ print(tab)
 
 print('Distribuição de porcentagens' + '\n')
 print((tab / tab.sum())*100)
+
+pnad.loc[pnad['V4720'] == 'Sem declaração', 'V4720'] = np.nan
+pnad.V4720 = pnad.V4720.astype('float')
+
+pnad.V4720.describe()
