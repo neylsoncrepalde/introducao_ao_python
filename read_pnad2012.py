@@ -42,6 +42,39 @@ pnad.V0302 = pnad.V0302.astype('category')
 pnad.V0404 = pnad.V0404.astype('category')
 pnad.dtypes
 
+# Arrumando a variável V4803 - escolaridade
+pnad.V4803.value_counts()
+pnad['esc'] = pnad.V4803
+pnad.loc[pnad['V4803'] == 'Sem instrução e menos de 1 ano', 'esc'] = 0
+pnad.loc[pnad['V4803'] == '1 ano', 'esc'] = 1
+pnad.loc[pnad['V4803'] == '2 anos', 'esc'] = 2
+pnad.loc[pnad['V4803'] == '3 anos', 'esc'] = 3
+pnad.loc[pnad['V4803'] == '4 anos', 'esc'] = 4
+pnad.loc[pnad['V4803'] == '5 anos', 'esc'] = 5
+pnad.loc[pnad['V4803'] == '6 anos', 'esc'] = 6
+pnad.loc[pnad['V4803'] == '7 anos', 'esc'] = 7
+pnad.loc[pnad['V4803'] == '8 anos', 'esc'] = 8
+pnad.loc[pnad['V4803'] == '9 anos', 'esc'] = 9
+pnad.loc[pnad['V4803'] == '10 anos', 'esc'] = 10
+pnad.loc[pnad['V4803'] == '11 anos', 'esc'] = 11
+pnad.loc[pnad['V4803'] == '12 anos', 'esc'] = 12
+pnad.loc[pnad['V4803'] == '13 anos', 'esc'] = 13
+pnad.loc[pnad['V4803'] == '14 anos', 'esc'] = 14
+pnad.loc[pnad['V4803'] == '15 anos ou mais', 'esc'] = 15
+pnad.loc[pnad['V4803'] == 'Não determinados ', 'esc'] = np.nan
+
+pnad['esc'] = pnad['esc'].astype('float')
+
+pnad['esc'].describe().round(2)
+pnad['esc'].mean()
+
+# Calculando a média ponderada pelo peso amostral
+escSemNa = pnad.loc[pnad['esc'].notna(), 'esc']
+pesoEsc  = pnad.loc[pnad['esc'].notna(), 'V4729']
+
+np.average(escSemNa, weights = pesoEsc) # Não mudou muito
+
+
 
 # Fazendo uma tabela de frequência de uma variável
 tab = pd.crosstab(index=pnad['V0404'],  # Make a crosstab
